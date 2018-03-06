@@ -1,0 +1,8 @@
+{
+  "name": "hubMobile",
+  "app_id": "51935fb4",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
