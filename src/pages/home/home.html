@@ -29,5 +29,13 @@
     <button ion-button full type="button" [disabled]="!loginForm.form.valid" (click)="login(loginForm)">Login</button>
   </form>
 
+  <ion-row *ngIf="error">
+    <ion-col>
+      <ion-item color="danger" text-wrap>
+        {{error.error_description}}
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
   <hub-footer></hub-footer>
 </ion-content>

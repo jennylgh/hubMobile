@@ -19,6 +19,8 @@ import {TabsPage} from "../tabs/tabs";
       username: string = 'omni_karen';
       password: string = 'Password1!';
 
+      error: any;
+
       constructor(public navCtrl: NavController,
                   private _authService: HubAuthService) {
       }
@@ -28,7 +30,10 @@ import {TabsPage} from "../tabs/tabs";
 
         this._authService.login(this.username, this.password)
           .subscribe((res: any) => {
-            this.navigateToMainPage()
+            this.error = undefined;
+            this.navigateToMainPage();
+          }, (err: any) => {
+            this.error = err.error;
           });
   }
 

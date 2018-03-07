@@ -9,10 +9,11 @@ import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service"
 export class TabMainPage
 {
   username: string;
+  rootPage: any = TabMainPage;
 
   constructor(public navCtrl: NavController,
-              private _authService: HubAuthService) {
-    this.username = _authService.authUser.userName;
+              authService: HubAuthService) {
+    this.username = authService.authUser.userName;
   }
 
 }
