@@ -12,6 +12,7 @@ import {HubConfigService} from "../providers/hub-config-service/hub-config-servi
 import {MobileHttpInterceptor} from "../providers/mobile-http-interceptor/mobile-http-interceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TabsPageModule} from "../pages/tabs/tabs.module";
+import { ContractServiceProvider } from '../providers/contract-service/contract-service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {TabsPageModule} from "../pages/tabs/tabs.module";
       provide: HTTP_INTERCEPTORS,
       useClass: MobileHttpInterceptor,
       multi: true
-    }
+    },
+    ContractServiceProvider
   ]
 })
 export class AppModule {}

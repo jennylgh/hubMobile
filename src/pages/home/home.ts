@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { NavController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";

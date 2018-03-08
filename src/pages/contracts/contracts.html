@@ -7,7 +7,15 @@
 </ion-header>
 
 <ion-content>
-  <div></div>
+  <ion-row>
+    <ion-col width-70 text-left>
+      <ion-label float-left>To Date: </ion-label>
+      <ion-datetime style="padding-top: 13px;" displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY" [(ngModel)]="toDate"></ion-datetime>
+    </ion-col>
+    <ion-col width-25 text-right>
+      <button small color="secondary" ion-button round padding (click)="onSearch()">Search</button>
+    </ion-col>
+  </ion-row>
 
 
   <hub-footer></hub-footer>
