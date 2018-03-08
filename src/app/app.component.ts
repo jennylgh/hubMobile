@@ -4,9 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import {TabMainPage} from "../pages/tabs/tabMain";
-import {ClaimPage} from "../pages/tabs/claim";
+import {ClaimPage} from "../pages/claim/claim";
 import {HubAuthService} from "../providers/hub-auth-service/hub-auth-service";
+import {ContractsPage} from "../pages/contracts/contracts";
 @Component({
   templateUrl: 'app.html'
 })
@@ -27,8 +27,8 @@ export class MyApp {
     });
   }
 
-  gotoMain() {
-    this.nav.push(TabMainPage);
+  gotoContract() {
+    this.nav.push(ContractsPage);
   }
 
   gotoClaim() {
