@@ -29,19 +29,21 @@ export class ContractsPage {
   private _ended: boolean;
   private _contracts: Array<Contract>;
 
+  private _showLoader: boolean;
   onSearch() {
     if (!this.toDate) return;
 
     this._page = 1;
     this._ended = false;
     this._contracts = [];
+    this._showLoader = true;
 
     this.search();
   }
 
   scroll(infiniteScroll: InfiniteScroll) {
     this._page++;
-
+    this._showLoader = false;
     this.search(infiniteScroll);
   }
 
@@ -51,11 +53,9 @@ export class ContractsPage {
     this.navCtrl.push(CreateClaimPage, c);
   }
 
-  private _lastDate: Date;
-
   private search(infiniteScroll?: InfiniteScroll) {
     let loader: Loading;
-    if (!infiniteScroll) {
+    if (this._showLoader) {
       loader = this.createLoader();
       loader.present();
     }
@@ -81,6 +81,7 @@ export class ContractsPage {
 
   private toContract(item: any): Contract {
     const pName = (item.ProductName || '').toLowerCase();
+    const inforce = item.Status.toLowerCase() === 'inforce';
     const contract = {
       Id: item.Id,
       PolicyNumber: item.FriendlyId,
@@ -90,7 +91,7 @@ export class ContractsPage {
       ProductCode: item.ProductName,
       Status: item.Status,
       VehicleDesc: item.Vehicle,
-      canAddClaim: pName.indexOf('loan') < 0 && pName.indexOf('excess wear') < 0
+      canAddClaim: pName.indexOf('loan') < 0 && pName.indexOf('excess wear') < 0 && inforce
     };
     return contract as Contract;
   }

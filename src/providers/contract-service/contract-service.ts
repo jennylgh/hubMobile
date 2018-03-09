@@ -37,6 +37,10 @@ export class ContractServiceProvider {
     return this.http
       .post<any>(`policies/search?page=${page}&pageSize=${pageSize}&sortDirection=desc&sortField=Created`, body);
   }
+
+  getPolicyClaimHistory(policyId: string): Observable<any> {
+    return this.http.get(`claim/history/${policyId}`);
+  }
 }
 
 

@@ -8,17 +8,17 @@
 
 <ion-content>
   <ion-row>
-    <ion-col width-70 text-left>
+    <ion-col col-8 text-left>
       <ion-label float-left>To Date: </ion-label>
       <ion-datetime style="padding-top: 13px;" displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY" [(ngModel)]="toDate"></ion-datetime>
     </ion-col>
-    <ion-col width-25 text-right>
+    <ion-col col-4 text-right>
       <button small color="secondary" ion-button round padding (click)="onSearch()">Search</button>
     </ion-col>
   </ion-row>
 
   <ion-list>
-    <button ion-item *ngFor="let c of _contracts" [disabled]="!c.canAddClaim"
+    <button ion-item *ngFor="let c of _contracts" [style.color]="c.canAddClaim? 'inherits':'red'"
             (click)="addClaim(c)" [attr.detail-none]="c.canAddClaim ? null: ''">
       <div>
         <b>{{c.PolicyNumber}}</b> - {{c.ContractDate}} ({{c.Status}})

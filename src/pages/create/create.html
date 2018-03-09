@@ -1,14 +1,104 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Create Claim
+      Add Claim - #{{contract.PolicyNumber}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <div></div>
+<ion-content padding>
+  <ion-row>
+    <ion-col text-wrap bold><b>{{contract.ProductCode}}</b></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-3>Date: </ion-col>
+    <ion-col col-3>{{contract.ContractDate}}</ion-col>
+    <ion-col col-3>Status: </ion-col>
+    <ion-col col-3>{{contract.Status}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-3>Dealer: </ion-col>
+    <ion-col col-9>{{contract.DealerName}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-3>Customer: </ion-col>
+    <ion-col col-9>{{contract.CustomerName}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-3>Vehicle: </ion-col>
+    <ion-col col-9>{{contract.VehicleDesc}}</ion-col>
+  </ion-row>
 
+  <form autocomplete="off" #form="ngForm">
+    <ion-item>
+      <ion-input id="mile" name="mile" placeholder="Enter Mileage"
+                 type="number" required [(ngModel)]="claim.mileage">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-datetime id="failureDate" name="failureDate" placeholder="Failure Date"
+                    displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY"
+                    required [(ngModel)]="claim.failureDate">
+      </ion-datetime>
+    </ion-item>
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>RE date</ion-label>-->
+      <!--<ion-datetime id="repairDate" name="repairDate" placeholder="Repair Entry Date"-->
+                    <!--displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY"-->
+                    <!--required [(ngModel)]="claim.repairEntryDate">-->
+      <!--</ion-datetime>-->
+    <!--</ion-item>-->
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>RF Contact</ion-label>-->
+      <!--<ion-input id="rfContact" name="rfContact" type="text" required-->
+                 <!--placeholder="Enter..." [(ngModel)]="claim.rfContact"></ion-input>-->
+    <!--</ion-item>-->
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>RO Number</ion-label>-->
+      <!--<ion-input id="roNumber" name="roNumber" type="text" placeholder="Enter..."-->
+                 <!--[(ngModel)]="claim.roNumber" required></ion-input>-->
+    <!--</ion-item>-->
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>Concern</ion-label>-->
+      <!--<ion-input id="cc" name="cc" type="text" placeholder="Customer Concern"-->
+                 <!--[(ngModel)]="claim.customerConcern" required></ion-input>-->
+    <!--</ion-item>-->
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>Cause</ion-label>-->
+      <!--<ion-input id="cause" name="cause" type="text" placeholder="Cause of failure"-->
+                 <!--[(ngModel)]="claim.causeOfFailure" required></ion-input>-->
+    <!--</ion-item>-->
+
+    <!--<ion-item>-->
+      <!--<ion-label fixed>Correction</ion-label>-->
+      <!--<ion-input id="corr" name="corr" type="text" placeholder="Correction"-->
+                 <!--[(ngModel)]="claim.correction" required></ion-input>-->
+    <!--</ion-item>-->
+
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button type="button" (click)="takePicture()">
+          <ion-icon name="camera"></ion-icon>&nbsp;&nbsp;Camera
+        </button>
+      </ion-col>
+      <!--<ion-col col-4>-->
+        <!--<button ion-button small outline color="secondar" type="button" (click)="autoFill()">-->
+          <!--<ion-icon name="happy"></ion-icon>&nbsp;&nbsp;Auto Fill-->
+        <!--</button>-->
+      <!--</ion-col>-->
+      <ion-col col-6 text-right>
+        <button ion-button color="dark" type="button" [disabled]="!form.form.valid" (click)="addClaim(form)">
+          Add Claim&nbsp;&nbsp;<ion-icon name="sad"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
 
   <hub-footer></hub-footer>
 </ion-content>
