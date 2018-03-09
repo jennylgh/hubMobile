@@ -17,8 +17,24 @@
     </ion-col>
   </ion-row>
 
+  <ion-list>
+    <button ion-item *ngFor="let c of _contracts" [disabled]="!c.canAddClaim"
+            (click)="addClaim(c)" [attr.detail-none]="c.canAddClaim ? null: ''">
+      <div>
+        <b>{{c.PolicyNumber}}</b> - {{c.ContractDate}} ({{c.Status}})
+      </div>
+      <div padding>
+        <div style="font-size: 15px" text-wrap>{{c.ProductCode}}</div>
+        <div style="font-size: 15px">Dealer: {{c.DealerName}}</div>
+        <div style="font-size: 15px">Customer: {{c.CustomerName}}</div>
+        <div style="font-size: 15px">Vehicle: {{c.VehicleDesc}}</div>
+      </div>
+    </button>
+  </ion-list>
 
-  <hub-footer></hub-footer>
+  <ion-infinite-scroll (ionInfinite)="scroll($event)">
+    <ion-infinite-scroll-content>Loading...</ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
 

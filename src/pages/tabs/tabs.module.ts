@@ -6,6 +6,7 @@ import {ContactPage} from "../contacts/contact";
 import {ComponentsModule} from "../../components/components.module";
 import {TabMainPage} from "../main/tabMain";
 import {ContractsPage} from "../contracts/contracts";
+import {CreateClaimPage} from "../create/create";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import {ContractsPage} from "../contracts/contracts";
     TabMainPage,
     ClaimPage,
     ContactPage,
-    ContractsPage
+    ContractsPage,
+    CreateClaimPage
   ],
   imports: [
     IonicPageModule.forChild(TabsPage),
@@ -21,6 +23,7 @@ import {ContractsPage} from "../contracts/contracts";
     IonicPageModule.forChild(ClaimPage),
     IonicPageModule.forChild(ContactPage),
     IonicPageModule.forChild(ContractsPage),
+    IonicPageModule.forChild(CreateClaimPage),
     ComponentsModule
   ]
 })

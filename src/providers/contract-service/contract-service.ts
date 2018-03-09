@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {DateTime} from "ionic-angular";
 
-export class Contract {
+export interface Contract {
+  Id: string,
   PolicyNumber: number;
-  SalesDate: Date;
+  ContractDate: string;
   CustomerName: string;
   DealerName: string;
   ProductCode: string;
   Status: string;
   VehicleDesc: string;
+  canAddClaim: boolean
 }
 
 /*
@@ -25,7 +26,7 @@ export class ContractServiceProvider {
   constructor(public http: HttpClient) {
   }
 
-  search(dateTo: Date, pageSize: number = 5): Observable<Array<any>> {
+  search(dateTo: Date, page: number, pageSize: number = 5): Observable<any> {
     const body: any = {
       DateRange: {
         Start: null,
@@ -34,7 +35,7 @@ export class ContractServiceProvider {
       DateType: "contract"
     };
     return this.http
-      .post<Array<any>>(`policies/search?page=1&pageSize=${pageSize}&sortDirection=desc&sortField=Created`, body);
+      .post<any>(`policies/search?page=${page}&pageSize=${pageSize}&sortDirection=desc&sortField=Created`, body);
   }
 }
 

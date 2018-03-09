@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import {LoadingController, NavController} from 'ionic-angular';
-import {ContractServiceProvider} from "../../providers/contract-service/contract-service";
+import {InfiniteScroll, LoadingController, NavController, ToastController} from 'ionic-angular';
+import {Contract, ContractServiceProvider} from "../../providers/contract-service/contract-service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {CreateClaimPage} from "../create/create";
+import {Loading} from "ionic-angular/components/loading/loading";
 
 const getDefaultDate = () => {
   let date = new Date();
@@ -10,7 +12,7 @@ const getDefaultDate = () => {
 };
 
 @Component({
-  selector: 'page-contract',
+  selector: 'page-contracts',
   templateUrl: 'contracts.html'
 })
 export class ContractsPage {
@@ -18,28 +20,92 @@ export class ContractsPage {
 
   constructor(public navCtrl: NavController,
               private _loadingCtrl: LoadingController,
+              private _toastCtrl: ToastController,
               private _contractService: ContractServiceProvider) {
   }
+
+  private _pageSize: number = 5;
+  private _page: number;
+  private _ended: boolean;
+  private _contracts: Array<Contract>;
 
   onSearch() {
     if (!this.toDate) return;
 
-    let loader = this.createLoader();
-    loader.present();
+    this._page = 1;
+    this._ended = false;
+    this._contracts = [];
+
+    this.search();
+  }
+
+  scroll(infiniteScroll: InfiniteScroll) {
+    this._page++;
+
+    this.search(infiniteScroll);
+  }
+
+  addClaim(c: Contract) {
+    if (!c.canAddClaim) return;
+
+    this.navCtrl.push(CreateClaimPage, c);
+  }
+
+  private _lastDate: Date;
+
+  private search(infiniteScroll?: InfiniteScroll) {
+    let loader: Loading;
+    if (!infiniteScroll) {
+      loader = this.createLoader();
+      loader.present();
+    }
 
     const date = new Date(this.toDate); //validate date < 1 month
 
-    this._contractService.search(date).subscribe((response: any) => {
-      console.log(response);
-      loader.dismiss();
+    this._contractService.search(date, this._page, this._pageSize).subscribe((response: any) => {
+      this._ended = response.Items.length < this._pageSize;
+
+      const formatted = response.Items.map(this.toContract.bind(this));
+      this._contracts.push(...formatted);
+
+      infiniteScroll && infiniteScroll.complete();
+      loader && loader.dismiss();
     }, (err: HttpErrorResponse) => {
-      loader.dismiss();
+      infiniteScroll && infiniteScroll.complete();
+      loader&& loader.dismiss();
+
+      let toast = this.createToast('Error');
+      toast.present();
     });
   }
 
-  private createLoader() {
+  private toContract(item: any): Contract {
+    const pName = (item.ProductName || '').toLowerCase();
+    const contract = {
+      Id: item.Id,
+      PolicyNumber: item.FriendlyId,
+      ContractDate: (item.ContractDate || '').substring(0, 10),
+      CustomerName: `${item.FirstName} ${item.LastName}`,
+      DealerName: item.AccountName,
+      ProductCode: item.ProductName,
+      Status: item.Status,
+      VehicleDesc: item.Vehicle,
+      canAddClaim: pName.indexOf('loan') < 0 && pName.indexOf('excess wear') < 0
+    };
+    return contract as Contract;
+  }
+
+  private createLoader(): Loading {
     return this._loadingCtrl.create({
       content: `<ion-spinner>Loading...</ion-spinner>`
+    });
+  }
+
+  private createToast(msg: string) {
+    return this._toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'bottom'
     });
   }
 }

@@ -42,7 +42,6 @@ import {TabsPage} from "../tabs/tabs";
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
 }

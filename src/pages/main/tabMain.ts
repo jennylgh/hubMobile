@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";
 
 @Component({
-  selector: 'page-contact',
+  selector: 'page-tabMain',
   templateUrl: 'tabMain.html'
 })
 export class TabMainPage
