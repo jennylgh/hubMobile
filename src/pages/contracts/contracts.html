@@ -21,7 +21,7 @@
     <button ion-item *ngFor="let c of _contracts" [style.color]="c.canAddClaim? 'inherits':'red'"
             (click)="addClaim(c)" [attr.detail-none]="c.canAddClaim ? null: ''">
       <div>
-        <b>{{c.PolicyNumber}}</b> - {{c.ContractDate}} ({{c.Status}})
+        <b>{{c.PolicyNumber}}</b> - {{c.ContractDate}} (<b>{{c.Status}}</b>)
       </div>
       <div padding>
         <div style="font-size: 15px" text-wrap>{{c.ProductCode}}</div>
