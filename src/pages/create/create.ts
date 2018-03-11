@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Contract, ContractServiceProvider} from "../../providers/contract-service/contract-service";
 import {NgForm} from "@angular/forms";
-import {Camera, CameraOptions} from "@ionic-native/camera";
 import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
 
+import {Camera, CameraOptions} from "@ionic-native/camera";
+import {File} from '@ionic-native/file';
+//import {FilePath} from "@ionic-native/file-path";
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
+
+declare var cordova: any;
 
 @Component({
   selector: 'page-create',
@@ -33,12 +38,14 @@ export class CreateClaimPage {
               private _toastCtrl: ToastController,
               private _contractService: ContractServiceProvider,
               private _alertCtrl: AlertController,
+              private _file: File,
+              //private _filePath: FilePath,
+              private _transfer: FileTransfer,
               navParams: NavParams) {
     this.contract = navParams.data as Contract;
   }
 
-  base64Image: any;
-  //imgSrc: any;
+  image: string;
 
   takePicture() {
     const options: CameraOptions = {
@@ -53,12 +60,60 @@ export class CreateClaimPage {
     };
 
     this._camera.getPicture(options)
-      .then((imageData: any) => {
-        this.base64Image = 'data:image/jpeg;base64,' + imageData;
-        console.log(this.base64Image);
+      .then((imagePath: string) => {
+        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }, (err: any) => {
-        this.onError(err, 'Unable to take picture.');
+        this.onError(err, 'Unable to take picture');
       });
+  }
+
+  copyFileToLocalDir(path: string, fileName: string, newFileName: string) {
+    this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
+      .then((response: any) => {
+        this.image = newFileName;
+      }, (error: any) => {
+        this.onError(error, 'Error when storing file')
+      })
+  }
+
+  public pathForImage(img: string) {
+    if (!img) {
+      return '';
+    } else {
+      return cordova.file.dataDirectory + img;
+    }
+  }
+
+  public uploadImage() {
+    // Destination URL
+    const url = "http://yoururl/upload.php";
+
+    // File for Upload
+    const targetPath = this.pathForImage(this.image);
+
+    // File name only
+    const filename = this.image;
+
+    const options = {
+      fileKey: "file",
+      fileName: filename,
+      chunkedMode: false,
+      mimeType: "multipart/form-data",
+      params: {'fileName': filename}
+    };
+
+    const loader = this.createLoaderAndPresent();
+    const fileTransfer: FileTransferObject = this._transfer.create();
+
+    // Use the FileTransfer to upload the image
+    fileTransfer.upload(targetPath, url, options).then(data => {
+      loader.dismiss();
+    }, (err: any) => {
+      loader.dismiss();
+      this.createToastAndPresent('Error uploading file');
+    });
   }
 
   addClaim(form: NgForm) {
@@ -113,6 +168,13 @@ export class CreateClaimPage {
         },(err: any) => {
           this.onError(err, `Error getting policy summary ${this.contract.Id}`);
       });
+  }
+
+  private createFileName(): string {
+    const d = new Date(),
+      n = d.getTime(),
+      newFileName =  n + ".jpg";
+    return newFileName;
   }
 
   private onClaimSuccess(claimId: string) {

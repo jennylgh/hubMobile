@@ -14,6 +14,9 @@ import {MobileHttpInterceptor} from "../providers/mobile-http-interceptor/mobile
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TabsPageModule} from "../pages/tabs/tabs.module";
 import {ContractServiceProvider} from '../providers/contract-service/contract-service';
+import {FilePath} from "@ionic-native/file-path";
+import {FileTransfer} from "@ionic-native/file-transfer";
+import {File} from "@ionic-native/file";
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import {ContractServiceProvider} from '../providers/contract-service/contract-se
       multi: true
     },
     ContractServiceProvider,
+    File,
+    FileTransfer,
+    FilePath,
     Camera
   ]
 })
