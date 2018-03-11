@@ -67,9 +67,14 @@ export class CreateClaimPage {
       .then((imagePath: string) => {
         this.createFileEntry(imagePath)
           .then((entry: Entry) => {
+            this.createAlert('entry', entry.nativeURL);
+
             const normalized = normalizeURL(entry.nativeURL);
-            this.createAlert('ImagePath', normalized);
+
+            this.createAlert('normalized', normalized);
             this.image = normalized;
+          }, (err: any) => {
+            this.createAlert('Error', 'createFileEntry() failed');
           });
 
       }, (err: any) => {
@@ -82,6 +87,8 @@ export class CreateClaimPage {
     let d = new Date();
     let t = d.getTime();
     let newFileName: string = t + ".jpg";
+
+    this.createAlert('debugging', `${this._file.tempDirectory}, ${cleansedPath}, , ${this._file.dataDirectory}, ${newFileName}`);
 
     return this._file.moveFile(this._file.tempDirectory, cleansedPath, this._file.dataDirectory, newFileName);
   }
