@@ -44,8 +44,14 @@
     </ion-item>
 
     <ion-card *ngIf="image">
-      <img [src]="DomSanitizer.bypassSecurityTrustUrl(image)" style="width: 100%">
+      <img [src]="DomSanitizer.bypassSecurityTrustUrl(image)" height="200">
     </ion-card>
+
+    <!--<ion-list [virtualScroll]="images" [approxItemHeight]="'400px'">-->
+      <!--<ion-item *virtualItem="let img">-->
+        <!--<ion-img item-start [src]="img" width="200" height="400"></ion-img>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
 
     <ion-row>
       <ion-col col-6>

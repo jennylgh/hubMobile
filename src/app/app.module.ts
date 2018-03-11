@@ -17,6 +17,7 @@ import {ContractServiceProvider} from '../providers/contract-service/contract-se
 import {FilePath} from "@ionic-native/file-path";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from "@ionic-native/file";
+import { HubErrorHandlersProvider } from '../providers/hub-error-handlers/hub-error-handlers';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {File} from "@ionic-native/file";
     File,
     FileTransfer,
     FilePath,
-    Camera
+    Camera,
+    { provide: ErrorHandler, useClass: HubErrorHandlersProvider }
   ]
 })
 export class AppModule {}

@@ -11,6 +11,8 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="*"/>
+    <access origin="*"/>
     <allow-navigation href="*" />
     <allow-navigation href="file://*/*" />
     <preference name="ScrollEnabled" value="false" />
