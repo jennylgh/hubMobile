@@ -267,4 +267,8 @@ export class CreateClaimPage {
     let alert = this._alertCtrl.create({title, subTitle, buttons: ['Dismiss']});
     alert.present();
   }
+
+  // private createHeaderForUpload(): any {
+  //
+  // }
 }
