@@ -44,7 +44,7 @@
     </ion-item>
 
     <ion-card *ngIf="image">
-      <img src="{{image}}" style="width: 100%">
+      <img [src]="DomSanitizer.bypassSecurityTrustUrl(image)" style="width: 100%">
     </ion-card>
 
     <ion-row>

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Contract, ContractServiceProvider} from "../../providers/contract-service/contract-service";
 import {NgForm} from "@angular/forms";
+import {DomSanitizer} from "@angular/platform-browser";
 import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
 
@@ -35,6 +36,7 @@ export class CreateClaimPage {
   };
 
   constructor(public navCtrl: NavController,
+              public DomSanitizer: DomSanitizer,
               private _camera: Camera,
               private _loadingCtrl: LoadingController,
               private _toastCtrl: ToastController,
