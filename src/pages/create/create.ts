@@ -91,7 +91,7 @@ export class CreateClaimPage {
     let t = d.getTime();
     let newFileName: string = t + ".jpg";
 
-    this.createAlert('debugging', `${this._file.tempDirectory}, ${cleansedPath}, , ${this._file.dataDirectory}, ${newFileName}`);
+    this.createAlert('debugging', `${currentPath}, ${cleansedPath}, ${cordova.file.dataDirectory}, ${newFileName}`);
 
     return this._file.moveFile(currentPath, cleansedPath, cordova.file.dataDirectory, newFileName);
   }
