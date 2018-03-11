@@ -78,7 +78,6 @@ export class CreateClaimPage {
           }, (err: any) => {
             this.createAlert('Error', 'createFileEntry() failed');
           });
-
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
       });
@@ -93,7 +92,8 @@ export class CreateClaimPage {
 
     this.createAlert('debugging', `${currentPath}, ${cleansedPath}, ${cordova.file.dataDirectory}, ${newFileName}`);
 
-    return this._file.moveFile(currentPath, cleansedPath, cordova.file.dataDirectory, newFileName);
+    return this._file.moveFile(currentPath, cleansedPath, cordova.file.dataDirectory, newFileName)
+      .then((entry: Entry) => entry);
   }
 
   public pathForImage(img: string) {
