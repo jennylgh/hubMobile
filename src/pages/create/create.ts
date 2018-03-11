@@ -11,6 +11,7 @@ import {File} from '@ionic-native/file';
 import {FileTransfer, FileUploadOptions, FileTransferObject} from "@ionic-native/file-transfer";
 import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
 import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var cordova: any;
 
@@ -35,6 +36,7 @@ export class CreateClaimPage {
   };
 
   constructor(public navCtrl: NavController,
+              public DomSanitizer: DomSanitizer,
               private _camera: Camera,
               private _loadingCtrl: LoadingController,
               private _toastCtrl: ToastController,
