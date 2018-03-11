@@ -50,10 +50,12 @@ export class ContractsPage {
 
   addClaim(c: Contract) {
     if (!c.canAddClaim) return;
+    if (this.searching) return;
 
     this.navCtrl.push(CreateClaimPage, c);
   }
 
+  private searching: boolean = false;
   private search(infiniteScroll?: InfiniteScroll) {
     let loader: Loading;
     if (this._showLoader) {
@@ -63,9 +65,11 @@ export class ContractsPage {
 
     const date = new Date(this.toDate); //validate date < 1 month
 
+    this.searching = true;
     this._contractService.search(date, this._page, this._pageSize)
       .pipe(
         finalize(() => {
+          this.searching = false;
           infiniteScroll && infiniteScroll.complete();
           loader && loader.dismiss();
         })
