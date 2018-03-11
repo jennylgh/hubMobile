@@ -43,43 +43,9 @@
       </ion-datetime>
     </ion-item>
 
-    <!--<ion-item>-->
-      <!--<ion-label fixed>RE date</ion-label>-->
-      <!--<ion-datetime id="repairDate" name="repairDate" placeholder="Repair Entry Date"-->
-                    <!--displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY"-->
-                    <!--required [(ngModel)]="claim.repairEntryDate">-->
-      <!--</ion-datetime>-->
-    <!--</ion-item>-->
-
-    <!--<ion-item>-->
-      <!--<ion-label fixed>RF Contact</ion-label>-->
-      <!--<ion-input id="rfContact" name="rfContact" type="text" required-->
-                 <!--placeholder="Enter..." [(ngModel)]="claim.rfContact"></ion-input>-->
-    <!--</ion-item>-->
-
-    <!--<ion-item>-->
-      <!--<ion-label fixed>RO Number</ion-label>-->
-      <!--<ion-input id="roNumber" name="roNumber" type="text" placeholder="Enter..."-->
-                 <!--[(ngModel)]="claim.roNumber" required></ion-input>-->
-    <!--</ion-item>-->
-
-    <!--<ion-item>-->
-      <!--<ion-label fixed>Concern</ion-label>-->
-      <!--<ion-input id="cc" name="cc" type="text" placeholder="Customer Concern"-->
-                 <!--[(ngModel)]="claim.customerConcern" required></ion-input>-->
-    <!--</ion-item>-->
-
-    <!--<ion-item>-->
-      <!--<ion-label fixed>Cause</ion-label>-->
-      <!--<ion-input id="cause" name="cause" type="text" placeholder="Cause of failure"-->
-                 <!--[(ngModel)]="claim.causeOfFailure" required></ion-input>-->
-    <!--</ion-item>-->
-
-    <!--<ion-item>-->
-      <!--<ion-label fixed>Correction</ion-label>-->
-      <!--<ion-input id="corr" name="corr" type="text" placeholder="Correction"-->
-                 <!--[(ngModel)]="claim.correction" required></ion-input>-->
-    <!--</ion-item>-->
+    <ion-card *ngIf="base64Image">
+      <img src="base64Image">
+    </ion-card>
 
     <ion-row>
       <ion-col col-6>

@@ -37,7 +37,8 @@ export class CreateClaimPage {
     this.contract = navParams.data as Contract;
   }
 
-  private base64Image: any;
+  base64Image: any;
+  //imgSrc: any;
 
   takePicture() {
     const options: CameraOptions = {
@@ -46,7 +47,9 @@ export class CreateClaimPage {
       destinationType: this._camera.DestinationType.DATA_URL,
       saveToPhotoAlbum: false,
       encodingType: this._camera.EncodingType.JPEG,
-      mediaType: this._camera.MediaType.PICTURE
+      mediaType: this._camera.MediaType.PICTURE,
+      targetWidth: 500,
+      targetHeight: 500
     };
 
     this._camera.getPicture(options)
