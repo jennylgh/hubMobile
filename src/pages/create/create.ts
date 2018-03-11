@@ -65,27 +65,23 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
-        //this.createAlert('ImagePath', imagePath);
-        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-        const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-
-        this.createAlert('Image Separated', `path: ${correctPath}, name: ${currentName}`);
-        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+        this.createAlert('ImagePath', imagePath);
+        this.image = imagePath;
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
       });
   }
 
-  copyFileToLocalDir(path: string, fileName: string, newFileName: string) {
-    this.createAlert('cordova', cordova.file.dataDirectory);
-    this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
-      .then((response: any) => {
-        this.image = newFileName;
-        this.createAlert('Image new path', this.pathForImage(this.image));
-      }, (error: any) => {
-        this.onError(error, 'Error when storing file')
-      })
-  }
+  // copyFileToLocalDir(path: string, fileName: string, newFileName: string) {
+  //   this.createAlert('cordova', cordova.file.dataDirectory);
+  //   this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
+  //     .then((response: any) => {
+  //       this.image = newFileName;
+  //       this.createAlert('Image new path', this.pathForImage(this.image));
+  //     }, (error: any) => {
+  //       this.onError(error, 'Error when storing file')
+  //     })
+  // }
 
   public pathForImage(img: string) {
     if (!img) {
@@ -181,12 +177,12 @@ export class CreateClaimPage {
       });
   }
 
-  private createFileName(): string {
-    const d = new Date(),
-      n = d.getTime(),
-      newFileName =  n + ".jpg";
-    return newFileName;
-  }
+  // private createFileName(): string {
+  //   const d = new Date(),
+  //     n = d.getTime(),
+  //     newFileName =  n + ".jpg";
+  //   return newFileName;
+  // }
 
   private onClaimSuccess(claimId: string) {
     this.createAlert('Success', `Claim ${claimId} created.`);
