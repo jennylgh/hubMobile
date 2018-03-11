@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, LoadingController, NavController, NavParams, ToastController, normalizeURL} from 'ionic-angular';
 import {Contract, ContractServiceProvider} from "../../providers/contract-service/contract-service";
 import {NgForm} from "@angular/forms";
 import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
 
 import {Camera, CameraOptions} from "@ionic-native/camera";
-import {File} from '@ionic-native/file';
+import {File, Entry} from '@ionic-native/file';
 //import {FilePath} from "@ionic-native/file-path";
 import {FileTransfer, FileUploadOptions, FileTransferObject} from "@ionic-native/file-transfer";
 import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
@@ -65,23 +65,26 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
-        this.image = imagePath;
-        this.createAlert('ImagePath', this.image);
+        this.createFileEntry(imagePath)
+          .then((entry: Entry) => {
+            const normalized = normalizeURL(entry.nativeURL);
+            this.createAlert('ImagePath', normalized);
+            this.image = normalized;
+          });
+
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
       });
   }
 
-  // copyFileToLocalDir(path: string, fileName: string, newFileName: string) {
-  //   this.createAlert('cordova', cordova.file.dataDirectory);
-  //   this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
-  //     .then((response: any) => {
-  //       this.image = newFileName;
-  //       this.createAlert('Image new path', this.pathForImage(this.image));
-  //     }, (error: any) => {
-  //       this.onError(error, 'Error when storing file')
-  //     })
-  // }
+  createFileEntry(imagePath: string): Promise<any> {
+    let cleansedPath = imagePath.replace(/^.*[\\\/]/, '');
+    let d = new Date();
+    let t = d.getTime();
+    let newFileName: string = t + ".jpg";
+
+    return this._file.moveFile(this._file.tempDirectory, cleansedPath, this._file.dataDirectory, newFileName);
+  }
 
   public pathForImage(img: string) {
     if (!img) {
