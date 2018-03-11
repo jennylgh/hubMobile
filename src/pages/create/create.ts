@@ -6,7 +6,7 @@ import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
 
 import {Camera, CameraOptions} from "@ionic-native/camera";
-import {File, Entry} from '@ionic-native/file';
+import {File} from '@ionic-native/file';
 //import {FilePath} from "@ionic-native/file-path";
 import {FileTransfer, FileUploadOptions, FileTransferObject} from "@ionic-native/file-transfer";
 import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
@@ -65,7 +65,7 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imageData: any) => {
-        this.image = "data:image/jpeg;base64," + imageData;
+        this.image = "data:image/jpg;base64," + imageData;
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
       });
