@@ -55,7 +55,7 @@ export class CreateClaimPage {
     const options: CameraOptions = {
       quality: 100,
       sourceType: this._camera.PictureSourceType.CAMERA,
-      destinationType: this._camera.DestinationType.FILE_URI,
+      destinationType: this._camera.DestinationType.DATA_URL,
       saveToPhotoAlbum: false,
       encodingType: this._camera.EncodingType.JPEG,
       mediaType: this._camera.MediaType.PICTURE,
@@ -64,36 +64,11 @@ export class CreateClaimPage {
     };
 
     this._camera.getPicture(options)
-      .then((imagePath: string) => {
-        this.createAlert('imagePath', imagePath);
-
-        this.createFileEntry(imagePath)
-          .then((entry: Entry) => {
-            this.createAlert('entry', entry.nativeURL);
-
-            const normalized = normalizeURL(entry.nativeURL);
-
-            this.createAlert('normalized', normalized);
-            this.image = normalized;
-          }, (err: any) => {
-            this.createAlert('Error', 'createFileEntry() failed');
-          });
+      .then((imageData: any) => {
+        this.image = "data:image/jpeg;base64," + imageData;
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
       });
-  }
-
-  createFileEntry(imagePath: string): Promise<any> {
-    let currentPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-    let cleansedPath = imagePath.replace(/^.*[\\\/]/, '');
-    let d = new Date();
-    let t = d.getTime();
-    let newFileName: string = t + ".jpg";
-
-    this.createAlert('debugging', `${currentPath}, ${cleansedPath}, ${cordova.file.dataDirectory}, ${newFileName}`);
-
-    return this._file.moveFile(currentPath, cleansedPath, cordova.file.dataDirectory, newFileName)
-      .then((entry: Entry) => entry);
   }
 
   public pathForImage(img: string) {
