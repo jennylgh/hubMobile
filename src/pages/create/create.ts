@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Contract, ContractServiceProvider} from "../../providers/contract-service/contract-service";
 import {NgForm} from "@angular/forms";
-import {DomSanitizer} from "@angular/platform-browser";
 import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
 
@@ -36,7 +35,6 @@ export class CreateClaimPage {
   };
 
   constructor(public navCtrl: NavController,
-              public DomSanitizer: DomSanitizer,
               private _camera: Camera,
               private _loadingCtrl: LoadingController,
               private _toastCtrl: ToastController,
@@ -67,7 +65,7 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
-        this.createAlert('ImagePath', imagePath + ', sanitized: ' + this.DomSanitizer.bypassSecurityTrustUrl(imagePath));
+        this.createAlert('ImagePath', imagePath);
         this.image = imagePath;
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
