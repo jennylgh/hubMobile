@@ -1,7 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {of} from "rxjs/observable/of";
 
 export interface Contract {
   Id: string,
@@ -45,10 +44,6 @@ export class ContractServiceProvider {
 
   addClaim(claimDto: any): Observable<any> {
     return this.http.post('claim', claimDto);
-  }
-
-  uploadClaimDoc(data: any): Observable<any> {
-    return of({});
   }
 }
 
