@@ -8,7 +8,10 @@ import {finalize} from "rxjs/operators";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {File} from '@ionic-native/file';
 //import {FilePath} from "@ionic-native/file-path";
-import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
+import {FileTransfer, FileUploadOptions, FileTransferObject} from "@ionic-native/file-transfer";
+import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
+import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";
+import {HubAuthUser} from "../../providers/commonTypes";
 
 declare var cordova: any;
 
@@ -32,6 +35,8 @@ export class CreateClaimPage {
     correction: undefined
   };
 
+  private _header: any;
+
   constructor(public navCtrl: NavController,
               private _camera: Camera,
               private _loadingCtrl: LoadingController,
@@ -41,7 +46,9 @@ export class CreateClaimPage {
               private _file: File,
               //private _filePath: FilePath,
               private _transfer: FileTransfer,
-              navParams: NavParams) {
+              navParams: NavParams,
+              private _configService: HubConfigService,
+              private _authService: HubAuthService) {
     this.contract = navParams.data as Contract;
   }
 
@@ -73,6 +80,7 @@ export class CreateClaimPage {
     this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
       .then((response: any) => {
         this.image = newFileName;
+        this.createAlert('Image', cordova.file.dataDirectory + '  ' + this.pathForImage(this.image));
       }, (error: any) => {
         this.onError(error, 'Error when storing file')
       })
@@ -96,12 +104,14 @@ export class CreateClaimPage {
     // File name only
     const filename = this.image;
 
-    const options = {
+    const options: FileUploadOptions = {
+      httpMethod: 'POST',
       fileKey: "file",
       fileName: filename,
       chunkedMode: false,
       mimeType: "multipart/form-data",
-      params: {'fileName': filename}
+      params: {'fileName': filename},
+      headers: this.createHeaders()
     };
 
     const loader = this.createLoaderAndPresent();
@@ -268,7 +278,10 @@ export class CreateClaimPage {
     alert.present();
   }
 
-  // private createHeaderForUpload(): any {
-  //
-  // }
+  private createHeaders(): any {
+    return {
+      BuildVersion: this._configService.buildKey,
+      Authorization: 'Bearer ' + this._authService.authUser.access_token
+    };
+  }
 }
