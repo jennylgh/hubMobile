@@ -11,7 +11,6 @@ import {File} from '@ionic-native/file';
 import {FileTransfer, FileUploadOptions, FileTransferObject} from "@ionic-native/file-transfer";
 import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
 import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";
-import {HubAuthUser} from "../../providers/commonTypes";
 
 declare var cordova: any;
 
@@ -58,7 +57,7 @@ export class CreateClaimPage {
     const options: CameraOptions = {
       quality: 100,
       sourceType: this._camera.PictureSourceType.CAMERA,
-      destinationType: this._camera.DestinationType.DATA_URL,
+      destinationType: this._camera.DestinationType.FILE_URI,
       saveToPhotoAlbum: false,
       encodingType: this._camera.EncodingType.JPEG,
       mediaType: this._camera.MediaType.PICTURE,
@@ -68,6 +67,8 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
+        this.createAlert('ImagePath', imagePath);
+
         const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
         const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
