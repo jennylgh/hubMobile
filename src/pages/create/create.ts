@@ -34,8 +34,6 @@ export class CreateClaimPage {
     correction: undefined
   };
 
-  private _header: any;
-
   constructor(public navCtrl: NavController,
               private _camera: Camera,
               private _loadingCtrl: LoadingController,
@@ -69,8 +67,10 @@ export class CreateClaimPage {
       .then((imagePath: string) => {
         this.createAlert('ImagePath', imagePath);
 
-        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
         const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+
+        this.createAlert('Image Separated', `path: ${correctPath}, name: ${currentName}`);
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
@@ -78,10 +78,11 @@ export class CreateClaimPage {
   }
 
   copyFileToLocalDir(path: string, fileName: string, newFileName: string) {
+    this.createAlert('cordova', cordova.file.dataDirectory);
     this._file.copyFile(path, fileName, cordova.file.dataDirectory, newFileName)
       .then((response: any) => {
         this.image = newFileName;
-        this.createAlert('Image', cordova.file.dataDirectory + '  ' + this.pathForImage(this.image));
+        this.createAlert('Image new path', this.pathForImage(this.image));
       }, (error: any) => {
         this.onError(error, 'Error when storing file')
       })
