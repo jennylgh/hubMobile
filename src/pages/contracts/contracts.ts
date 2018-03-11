@@ -4,6 +4,7 @@ import {Contract, ContractServiceProvider} from "../../providers/contract-servic
 import {HttpErrorResponse} from "@angular/common/http";
 import {CreateClaimPage} from "../create/create";
 import {Loading} from "ionic-angular/components/loading/loading";
+import {finalize} from "rxjs/operators";
 
 const getDefaultDate = () => {
   let date = new Date();
@@ -62,21 +63,21 @@ export class ContractsPage {
 
     const date = new Date(this.toDate); //validate date < 1 month
 
-    this._contractService.search(date, this._page, this._pageSize).subscribe((response: any) => {
-      this._ended = response.Items.length < this._pageSize;
+    this._contractService.search(date, this._page, this._pageSize)
+      .pipe(
+        finalize(() => {
+          infiniteScroll && infiniteScroll.complete();
+          loader && loader.dismiss();
+        })
+      )
+      .subscribe((response: any) => {
+        this._ended = response.Items.length < this._pageSize;
 
-      const formatted = response.Items.map(this.toContract.bind(this));
-      this._contracts.push(...formatted);
-
-      infiniteScroll && infiniteScroll.complete();
-      loader && loader.dismiss();
-    }, (err: HttpErrorResponse) => {
-      infiniteScroll && infiniteScroll.complete();
-      loader&& loader.dismiss();
-
-      let toast = this.createToast('Error');
-      toast.present();
-    });
+        const formatted = response.Items.map(this.toContract.bind(this));
+        this._contracts.push(...formatted);
+      }, (err: HttpErrorResponse) => {
+        this.createToastAndPresent('Error searching contract');
+      });
   }
 
   private toContract(item: any): Contract {
@@ -98,15 +99,17 @@ export class ContractsPage {
 
   private createLoader(): Loading {
     return this._loadingCtrl.create({
-      content: `<ion-spinner>Loading...</ion-spinner>`
+      content: `<ion-spinner name="ios">Loading...</ion-spinner>`
     });
   }
 
-  private createToast(msg: string) {
-    return this._toastCtrl.create({
+  private createToastAndPresent(msg: string) {
+    let toast = this._toastCtrl.create({
       message: msg,
       duration: 2000,
       position: 'bottom'
     });
+
+    toast.present();
   }
 }

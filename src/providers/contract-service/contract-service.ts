@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
+import {of} from "rxjs/observable/of";
 
 export interface Contract {
   Id: string,
@@ -38,8 +39,16 @@ export class ContractServiceProvider {
       .post<any>(`policies/search?page=${page}&pageSize=${pageSize}&sortDirection=desc&sortField=Created`, body);
   }
 
-  getPolicyClaimHistory(policyId: string): Observable<any> {
-    return this.http.get(`claim/history/${policyId}`);
+  getPolicySummary(policyId: string): Observable<any> {
+    return this.http.get(`claim/policysummary/${policyId}?language=en-CA`);
+  }
+
+  addClaim(claimDto: any): Observable<any> {
+    return this.http.post('claim', claimDto);
+  }
+
+  uploadClaimDoc(data: any): Observable<any> {
+    return of({});
   }
 }
 
