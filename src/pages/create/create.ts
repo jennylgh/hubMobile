@@ -67,7 +67,7 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
-        this.createAlert('ImagePath', imagePath);
+        this.createAlert('ImagePath', imagePath + ', sanitized: ' + this.DomSanitizer.bypassSecurityTrustUrl(imagePath));
         this.image = imagePath;
       }, (err: any) => {
         this.onError(err, 'Unable to take picture');
