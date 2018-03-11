@@ -65,6 +65,8 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
+        this.createAlert('imagePath', imagePath);
+
         this.createFileEntry(imagePath)
           .then((entry: Entry) => {
             this.createAlert('entry', entry.nativeURL);
@@ -83,6 +85,7 @@ export class CreateClaimPage {
   }
 
   createFileEntry(imagePath: string): Promise<any> {
+    let currentPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
     let cleansedPath = imagePath.replace(/^.*[\\\/]/, '');
     let d = new Date();
     let t = d.getTime();
@@ -90,7 +93,7 @@ export class CreateClaimPage {
 
     this.createAlert('debugging', `${this._file.tempDirectory}, ${cleansedPath}, , ${this._file.dataDirectory}, ${newFileName}`);
 
-    return this._file.moveFile(this._file.tempDirectory, cleansedPath, this._file.dataDirectory, newFileName);
+    return this._file.moveFile(currentPath, cleansedPath, cordova.file.dataDirectory, newFileName);
   }
 
   public pathForImage(img: string) {
