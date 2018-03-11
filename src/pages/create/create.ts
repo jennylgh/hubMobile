@@ -65,9 +65,8 @@ export class CreateClaimPage {
 
     this._camera.getPicture(options)
       .then((imagePath: string) => {
-        this.createAlert('ImagePath', imagePath);
-
-        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+        //this.createAlert('ImagePath', imagePath);
+        const currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
         const correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
 
         this.createAlert('Image Separated', `path: ${correctPath}, name: ${currentName}`);
