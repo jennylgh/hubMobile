@@ -127,7 +127,7 @@ export class CreateClaimPage {
           this.onClaimFailure('Unable to create claim', `${response.ErrorMessages.join(' ')}`);
         } else {
           const claimId: string = response.Id;
-          const doUpload = false;
+          const doUpload = true;
           if (doUpload && this.image && this.imageUri) {
             this.upload(claimId, loader);
           } else {
