@@ -17,7 +17,7 @@ import {TabsPage} from "../tabs/tabs";
 })
     export class HomePage {
       username: string = 'omni_karen';
-      password: string = 'Password1!';
+      password: string;// = 'Password1!';
 
       error: any;
 
