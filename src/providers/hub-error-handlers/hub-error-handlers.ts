@@ -10,11 +10,10 @@ import {ErrorHandler, Injectable} from '@angular/core';
 export class HubErrorHandlersProvider implements ErrorHandler{
   handleError(error: any): void {
     if (error) {
-      console.log(error);
+      console.log(JSON.stringify(error));
     }
   }
 
   constructor() {
   }
-
 }

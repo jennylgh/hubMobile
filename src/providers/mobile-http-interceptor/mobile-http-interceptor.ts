@@ -45,7 +45,7 @@ export class MobileHttpInterceptor implements HttpInterceptor {
   }
 
   private handleResponseError(err: any, url: string, suppressError: boolean, responseType: string) {
-    console.log(err);
+    console.log(JSON.stringify(err));
   }
 
   private updateHttpRequest(req: HttpRequest<any>, cacheEnabled: boolean, url: string): HttpRequest<any> {

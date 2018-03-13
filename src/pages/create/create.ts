@@ -40,7 +40,6 @@ export class CreateClaimPage {
               private _contractService: ContractServiceProvider,
               private _alertCtrl: AlertController,
               private _file: File,
-              //private _filePath: FilePath,
               private _transfer: FileTransfer,
               navParams: NavParams,
               private _configService: HubConfigService,
@@ -105,6 +104,8 @@ export class CreateClaimPage {
       headers: this.createHeaders()
     };
 
+    //console.log('About to upload file', JSON.stringify(options));
+
     const fileTransfer: FileTransferObject = this._transfer.create();
     return fileTransfer.upload(targetFile, url, options);
   }
@@ -117,8 +118,7 @@ export class CreateClaimPage {
     this.autoFill();
     const claimDto = this.toClaimDto();
 
-    //this.upload('xxx', loader);
-
+    const doUpload = true;
     this._contractService.addClaim(claimDto)
       .pipe(
         finalize(() => loader && loader.dismiss())
@@ -127,7 +127,6 @@ export class CreateClaimPage {
           this.onClaimFailure('Unable to create claim', `${response.ErrorMessages.join(' ')}`);
         } else {
           const claimId: string = response.Id;
-          const doUpload = true;
           if (doUpload && this.image && this.imageUri) {
             this.upload(claimId, loader);
           } else {
@@ -135,19 +134,19 @@ export class CreateClaimPage {
           }
         }
     }, (err: any) => {
-        this.onError(err, 'Unable to addClaim');
+        this.onError(err, 'Unable to addClaim', loader);
     });
   }
 
   private upload(claimId: string, loader: Loading) {
     const params: any = {
-      Object: JSON.stringify({ObjectId: 'dcc2c9a5-7b25-e811-80f5-0050568a3640'}),
+      Object: JSON.stringify({ObjectId: claimId}),
       FileDescription: 'claim file upload - mobile',
       FileCategories: this.getClaimFileCategories()
     };
 
     this.uploadImage(params).then((response: any) => {
-      loader.dismissAll();
+      loader && loader.dismissAll();
       this.onClaimSuccess(claimId, true);
     }, (err: any) => {
       this.onError(err, `Added Claim ${claimId}. But unable to upload picture`, loader);
@@ -207,7 +206,7 @@ export class CreateClaimPage {
       msg = `${msg}: ${err}`;
     }
 
-    this.createToastAndPresent(msg, err);
+    this.createToastAndPresent(msg, JSON.stringify(err));
   }
 
   private toClaimDto(): any {
@@ -250,7 +249,7 @@ export class CreateClaimPage {
       RepairEntryDate: this.claim.repairEntryDate,
       RepairFacilityContact: 'RF contact: blah',
       RepairOrderNumber: this.claim.roNumber,
-      ReportChannelId: '81069ae5-976e-4e3d-85ee-7f20a4a8291c'
+      ReportChannelId: '95A99887-D3E6-4728-BDE8-8AB96CF42F25'
     };
   }
 

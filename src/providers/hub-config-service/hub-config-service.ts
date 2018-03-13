@@ -11,8 +11,9 @@ export class HubConfigService {
   constructor() {
   }
 
+  private _connectToLocal: boolean = true;
   get hubApiRoot(): string {
-    return `http://lgmdev-qa2.lgmdev.internal:9000`;
+    return this._connectToLocal? `http://lgmdevwks37.lgmdev.internal:7000` : `http://lgmdev-qa2.lgmdev.internal:9000`;
   }
 
   get buildKey(): string {
