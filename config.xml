@@ -11,8 +11,8 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-intent href="*"/>
-    <access origin="*"/>
+    <allow-intent href="*" />
+    <access origin="*" />
     <allow-navigation href="*" />
     <allow-navigation href="file://*/*" />
     <preference name="ScrollEnabled" value="false" />
@@ -95,4 +95,5 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
 </widget>
