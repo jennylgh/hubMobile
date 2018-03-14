@@ -5,6 +5,7 @@ import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service"
 import {TabsPage} from "../tabs/tabs";
 import {Loading} from "ionic-angular/components/loading/loading";
 import {finalize} from "rxjs/operators";
+import {HubConfigService} from "../../providers/hub-config-service/hub-config-service";
 
 /**
  * Generated class for the LoginPage page.
@@ -22,10 +23,13 @@ export class HomePage {
   password: string;// = 'Password1!';
 
   error: any;
+  apiRoot: string;
 
   constructor(public navCtrl: NavController,
               private _loadingCtrl: LoadingController,
-              private _authService: HubAuthService) {
+              private _authService: HubAuthService,
+              conficServcie: HubConfigService) {
+    this.apiRoot = conficServcie.hubApiRoot;
   }
 
   login(form: NgForm) {
