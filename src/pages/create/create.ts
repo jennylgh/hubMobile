@@ -12,6 +12,8 @@ import {HubConfigService} from "../../providers/hub-config-service/hub-config-se
 import {HubAuthService} from "../../providers/hub-auth-service/hub-auth-service";
 import {DomSanitizer} from '@angular/platform-browser';
 
+import '@ionic-native/device';
+
 @Component({
   selector: 'page-create',
   templateUrl: 'create.html'

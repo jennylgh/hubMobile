@@ -18,6 +18,7 @@ import {FilePath} from "@ionic-native/file-path";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from "@ionic-native/file";
 import { HubErrorHandlersProvider } from '../providers/hub-error-handlers/hub-error-handlers';
+import {Device} from "@ionic-native/device";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { HubErrorHandlersProvider } from '../providers/hub-error-handlers/hub-er
     FileTransfer,
     FilePath,
     Camera,
+    Device,
     { provide: ErrorHandler, useClass: HubErrorHandlersProvider }
   ]
 })
